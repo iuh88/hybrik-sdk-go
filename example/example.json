@@ -1,0 +1,1864 @@
+{
+    "name": "dev:clip:5bb450d7d0d939e375e93308:720pDRM:Big_bunny_1080_19s",
+    "payload": {
+        "elements": [
+            {
+                "uid": "source",
+                "kind": "source",
+                "payload": {
+                    "kind": "asset_complex",
+                    "payload": {
+                        "kind": "multi",
+                        "asset_versions": [
+                            {
+                                "version_uid": "0",
+                                "asset_components": [
+                                    {
+                                        "kind": "name",
+                                        "component_uid": "audio_video_comp",
+                                        "location": {
+                                            "storage_provider": "s3",
+                                            "path": "s3://nonprd-hybrik-input/h264_BigBuckBunny"
+                                        },
+                                        "name": "Big_bunny_1080_19s.mov",
+                                        "contents": [
+                                            {
+                                                "kind": "video"
+                                            },
+                                            {
+                                                "kind": "audio",
+                                                "map": [
+                                                    {
+                                                        "input": {
+                                                            "track": 0
+                                                        },
+                                                        "output": {
+                                                            "track": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "kind": "name",
+                                        "component_uid": "audio_uk_audio description",
+                                        "location": {
+                                            "storage_provider": "s3",
+                                            "path": "s3://nonprd-hybrik-input/h264_BigBuckBunny"
+                                        },
+                                        "name": "big_buck_bunny_audio-description.wav",
+                                        "contents": [
+                                            {
+                                                "kind": "audio",
+                                                "payload": {
+                                                    "language": "uk"
+                                                },
+                                                "map": [
+                                                    {
+                                                        "input": {
+                                                            "track": 0
+                                                        },
+                                                        "output": {
+                                                            "track": 1
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "kind": "name",
+                                        "component_uid": "asset_0",
+                                        "location": {
+                                            "storage_provider": "s3",
+                                            "path": "s3://nonprd-hybrik-input/h264_BigBuckBunny"
+                                        },
+                                        "name": "big_buck_bunny.vtt",
+                                        "contents": [
+                                            {
+                                                "kind": "subtitle",
+                                                "payload": {
+                                                    "language": "be",
+                                                    "format": "auto"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "kind": "name",
+                                        "component_uid": "asset_1",
+                                        "location": {
+                                            "storage_provider": "s3",
+                                            "path": "s3://nonprd-hybrik-input/h264_BigBuckBunny"
+                                        },
+                                        "name": "big_buck_bunny.vtt",
+                                        "contents": [
+                                            {
+                                                "kind": "subtitle",
+                                                "payload": {
+                                                    "language": "zh",
+                                                    "format": "auto"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "kind": "name",
+                                        "component_uid": "asset_2",
+                                        "location": {
+                                            "storage_provider": "s3",
+                                            "path": "s3://nonprd-hybrik-input/h264_BigBuckBunny"
+                                        },
+                                        "name": "big_buck_bunny.vtt",
+                                        "contents": [
+                                            {
+                                                "kind": "subtitle",
+                                                "payload": {
+                                                    "language": "uk",
+                                                    "format": "auto"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "uid": "analyze_source",
+                "kind": "analyze",
+                "payload": {
+                    "general_properties": {
+                        "enabled": true
+                    },
+                    "deep_properties": {
+                        "audio": {
+                            "ebur128": {
+                                "enabled": true,
+                                "is_optional": true,
+                                "target_reference": {
+                                    "integrated_lufs": -23,
+                                    "true_peak_dbfs": -3
+                                }
+                            },
+                            "volume": {
+                                "enabled": true,
+                                "is_optional": true
+                            }
+                        },
+                        "video": {}
+                    }
+                }
+            },
+            {
+                "uid": "transcode_fmp4_sub_hd",
+                "kind": "transcode",
+                "task": {
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "retry",
+                    "retry": {
+                        "count": 2,
+                        "delay_sec": 30
+                    }
+                },
+                "payload": {
+                    "preview_uid": "main",
+                    "targets": [
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "hls_300.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 512,
+                                "height": 288,
+                                "bitrate_kb": 300,
+                                "max_bitrate_kb": 360,
+                                "vbv_buffer_size_kb": 375,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "hls_600.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 512,
+                                "height": 288,
+                                "bitrate_kb": 600,
+                                "max_bitrate_kb": 720,
+                                "vbv_buffer_size_kb": 750,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "hls_1000.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 768,
+                                "height": 432,
+                                "bitrate_kb": 1000,
+                                "max_bitrate_kb": 1200,
+                                "vbv_buffer_size_kb": 1250,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "hls_1600.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 768,
+                                "height": 432,
+                                "bitrate_kb": 1600,
+                                "max_bitrate_kb": 1800,
+                                "vbv_buffer_size_kb": 1920,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "hls_2400.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 1216,
+                                "height": 684,
+                                "bitrate_kb": 2400,
+                                "max_bitrate_kb": 2600,
+                                "vbv_buffer_size_kb": 2880,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "uk_audio_description_0.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 1,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "uk",
+                                    "source": [
+                                        {
+                                            "track": 1
+                                        }
+                                    ]
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "uk-ad_",
+                                "hls_media_location_folder": "uk-ad/",
+                                "hls_media_playlist_name": "uk-ad"
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "be{default_extension}",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "webvtt",
+                                "segment_duration": 5,
+                                "segment_location": {
+                                    "path": "be-cc",
+                                    "storage_provider": "relative"
+                                },
+                                "align_to_av_media": true,
+                                "verify": false
+                            },
+                            "subtitle": [
+                                {
+                                    "format": "webvtt",
+                                    "language": "be",
+                                    "source_map": "use_if_exists",
+                                    "match_source_language": true
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "",
+                                "hls_media_location_folder": "be-cc",
+                                "hls_media_playlist_name": "be-cc"
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "zh{default_extension}",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "webvtt",
+                                "segment_duration": 5,
+                                "segment_location": {
+                                    "path": "zh-sub",
+                                    "storage_provider": "relative"
+                                },
+                                "align_to_av_media": true,
+                                "verify": false
+                            },
+                            "subtitle": [
+                                {
+                                    "format": "webvtt",
+                                    "language": "zh",
+                                    "source_map": "use_if_exists",
+                                    "match_source_language": true
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "",
+                                "hls_media_location_folder": "zh-sub",
+                                "hls_media_playlist_name": "zh-sub"
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd"
+                            },
+                            "file_pattern": "uk{default_extension}",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "webvtt",
+                                "segment_duration": 5,
+                                "segment_location": {
+                                    "path": "uk-cc",
+                                    "storage_provider": "relative"
+                                },
+                                "align_to_av_media": true,
+                                "verify": false
+                            },
+                            "subtitle": [
+                                {
+                                    "format": "webvtt",
+                                    "language": "uk",
+                                    "source_map": "use_if_exists",
+                                    "match_source_language": true
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "",
+                                "hls_media_location_folder": "uk-cc",
+                                "hls_media_playlist_name": "uk-cc"
+                            }
+                        }
+                    ],
+                    "source_pipeline": {
+                        "track_sync_mode": "unaligned",
+                        "trim": {
+                            "outpoint_sec": 17
+                        }
+                    },
+                    "options": {
+                        "pipeline": {
+                            "ffmpeg_version": "hybrik_3.2_8bit"
+                        }
+                    }
+                }
+            },
+            {
+                "uid": "transcode_fmp4",
+                "kind": "transcode",
+                "task": {
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "retry",
+                    "retry": {
+                        "count": 2,
+                        "delay_sec": 30
+                    }
+                },
+                "payload": {
+                    "preview_uid": "main",
+                    "targets": [
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "hls_300.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 426,
+                                "height": 240,
+                                "bitrate_kb": 300,
+                                "max_bitrate_kb": 360,
+                                "vbv_buffer_size_kb": 375,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "hls_600.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 640,
+                                "height": 360,
+                                "bitrate_kb": 600,
+                                "max_bitrate_kb": 720,
+                                "vbv_buffer_size_kb": 750,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "hls_1000.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 854,
+                                "height": 480,
+                                "bitrate_kb": 1000,
+                                "max_bitrate_kb": 1200,
+                                "vbv_buffer_size_kb": 1250,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "hls_1600.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 854,
+                                "height": 480,
+                                "bitrate_kb": 1600,
+                                "max_bitrate_kb": 1760,
+                                "vbv_buffer_size_kb": 1920,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "hls_2400.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 1280,
+                                "height": 720,
+                                "bitrate_kb": 2400,
+                                "max_bitrate_kb": 2640,
+                                "vbv_buffer_size_kb": 2880,
+                                "frame_rate": "30",
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "use_closed_gop": true,
+                                "exact_gop_frames": 150,
+                                "use_sequence_header_per_gop": true,
+                                "closed_captions": {
+                                    "suppress": true
+                                },
+                                "level": "3.1",
+                                "layer_affinities": [
+                                    "aac_audio"
+                                ]
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 0,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "en",
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "uk_audio_description_0.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "fmp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "segment_duration": 5,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "filters": [
+                                        {
+                                            "kind": "normalize",
+                                            "payload": {
+                                                "kind": "ebur128",
+                                                "payload": {
+                                                    "analyzer_track_index": 1,
+                                                    "allow_unprecise_mode": false,
+                                                    "integrated_lufs": -23,
+                                                    "true_peak_dbfs": -3,
+                                                    "is_optional": true
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "layer_id": "aac_audio",
+                                    "language": "uk",
+                                    "source": [
+                                        {
+                                            "track": 1
+                                        }
+                                    ]
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "uk-ad_",
+                                "hls_media_location_folder": "uk-ad/",
+                                "hls_media_playlist_name": "uk-ad"
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "be{default_extension}",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "webvtt",
+                                "segment_duration": 5,
+                                "segment_location": {
+                                    "path": "be-cc",
+                                    "storage_provider": "relative"
+                                },
+                                "align_to_av_media": true,
+                                "verify": false
+                            },
+                            "subtitle": [
+                                {
+                                    "format": "webvtt",
+                                    "language": "be",
+                                    "source_map": "use_if_exists",
+                                    "match_source_language": true
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "",
+                                "hls_media_location_folder": "be-cc",
+                                "hls_media_playlist_name": "be-cc"
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "zh{default_extension}",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "webvtt",
+                                "segment_duration": 5,
+                                "segment_location": {
+                                    "path": "zh-sub",
+                                    "storage_provider": "relative"
+                                },
+                                "align_to_av_media": true,
+                                "verify": false
+                            },
+                            "subtitle": [
+                                {
+                                    "format": "webvtt",
+                                    "language": "zh",
+                                    "source_map": "use_if_exists",
+                                    "match_source_language": true
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "",
+                                "hls_media_location_folder": "zh-sub",
+                                "hls_media_playlist_name": "zh-sub"
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                            },
+                            "file_pattern": "uk{default_extension}",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "webvtt",
+                                "segment_duration": 5,
+                                "segment_location": {
+                                    "path": "uk-cc",
+                                    "storage_provider": "relative"
+                                },
+                                "align_to_av_media": true,
+                                "verify": false
+                            },
+                            "subtitle": [
+                                {
+                                    "format": "webvtt",
+                                    "language": "uk",
+                                    "source_map": "use_if_exists",
+                                    "match_source_language": true
+                                }
+                            ],
+                            "variables": {
+                                "hls_media_file_pattern": "",
+                                "hls_media_location_folder": "uk-cc",
+                                "hls_media_playlist_name": "uk-cc"
+                            }
+                        }
+                    ],
+                    "source_pipeline": {
+                        "track_sync_mode": "unaligned",
+                        "trim": {
+                            "outpoint_sec": 17
+                        }
+                    },
+                    "options": {
+                        "pipeline": {
+                            "ffmpeg_version": "hybrik_3.2_8bit"
+                        }
+                    }
+                }
+            },
+            {
+                "uid": "transcode_mp4_preview",
+                "kind": "transcode",
+                "task": {
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "fail"
+                },
+                "payload": {
+                    "preview_uid": "main",
+                    "targets": [
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/preview/20230126_103448/mp4"
+                            },
+                            "file_pattern": "5bb450d7d0d939e375e93308.mp4",
+                            "existing_files": "replace",
+                            "container": {
+                                "kind": "mp4",
+                                "auto_speed_change_delta_percent": 0,
+                                "verify": true
+                            },
+                            "nr_of_passes": 1,
+                            "ffmpeg_args": "-sws_flags lanczos+accurate_rnd+full_chroma_int+full_chroma_inp -movflags separate_moof",
+                            "video": {
+                                "codec": "h264",
+                                "width": 854,
+                                "height": 480,
+                                "bitrate_kb": 1000,
+                                "max_bitrate_kb": 1200,
+                                "vbv_buffer_size_kb": 1250,
+                                "refs": 3,
+                                "profile": "high",
+                                "use_scene_detection": false,
+                                "bitrate_mode": "vbr",
+                                "level": "3.1"
+                            },
+                            "audio": [
+                                {
+                                    "codec": "aac_lc",
+                                    "channels": 2,
+                                    "bitrate_kb": 96,
+                                    "sample_rate": 48000,
+                                    "source": [
+                                        {
+                                            "track": 0
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "source_pipeline": {
+                        "trim": {}
+                    },
+                    "options": {
+                        "pipeline": {}
+                    }
+                }
+            },
+            {
+                "uid": "thumbnails",
+                "kind": "transcode",
+                "task": {
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "fail"
+                },
+                "payload": {
+                    "preview_uid": "main",
+                    "targets": [
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/thumbnails/20230126_103448",
+                                "attributes": [
+                                    {
+                                        "name": "Content-Type",
+                                        "value": "image/jpeg"
+                                    }
+                                ]
+                            },
+                            "file_pattern": "5bb450d7d0d939e375e93308_160x90_%05d.jpg",
+                            "existing_files": "replace",
+                            "ffmpeg_args": "-q:v 6 -start_number 0",
+                            "video": {
+                                "width": 160,
+                                "height": 90,
+                                "frame_rate": "1/12",
+                                "par": 1,
+                                "use_scene_detection": true
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/thumbnails/20230126_103448",
+                                "attributes": [
+                                    {
+                                        "name": "Content-Type",
+                                        "value": "image/jpeg"
+                                    }
+                                ]
+                            },
+                            "file_pattern": "5bb450d7d0d939e375e93308_240x135_%05d.jpg",
+                            "existing_files": "replace",
+                            "ffmpeg_args": "-q:v 6 -start_number 0",
+                            "video": {
+                                "width": 240,
+                                "height": 135,
+                                "frame_rate": "1/12",
+                                "par": 1,
+                                "use_scene_detection": true
+                            }
+                        },
+                        {
+                            "location": {
+                                "storage_provider": "s3",
+                                "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/thumbnails/20230126_103448",
+                                "attributes": [
+                                    {
+                                        "name": "Content-Type",
+                                        "value": "image/jpeg"
+                                    }
+                                ]
+                            },
+                            "file_pattern": "5bb450d7d0d939e375e93308_320x180_%05d.jpg",
+                            "existing_files": "replace",
+                            "ffmpeg_args": "-q:v 6 -start_number 0",
+                            "video": {
+                                "width": 320,
+                                "height": 180,
+                                "frame_rate": "1/12",
+                                "par": 1,
+                                "use_scene_detection": true
+                            }
+                        }
+                    ],
+                    "source_pipeline": {
+                        "track_sync_mode": "unaligned",
+                        "trim": {}
+                    },
+                    "options": {
+                        "pipeline": {
+                            "ffmpeg_version": "hybrik_3.2_8bit"
+                        }
+                    }
+                }
+            },
+            {
+                "uid": "package_hls_clearkey",
+                "kind": "script",
+                "task": {
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "retry",
+                    "retry": {
+                        "count": 2,
+                        "delay_sec": 30
+                    },
+                    "tags": [
+                        "hls-package"
+                    ]
+                },
+                "payload": {
+                    "kind": "docker",
+                    "payload": {
+                        "sources": [
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/hls_300.mp4"
+                                },
+                                "placeholder": "hls_300"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/hls_600.mp4"
+                                },
+                                "placeholder": "hls_600"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/hls_1000.mp4"
+                                },
+                                "placeholder": "hls_1000"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/hls_1600.mp4"
+                                },
+                                "placeholder": "hls_1600"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/hls_2400.mp4"
+                                },
+                                "placeholder": "hls_2400"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/uk_audio_description_0.mp4"
+                                },
+                                "placeholder": "uk_audio_description_0"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/be.vtt"
+                                },
+                                "placeholder": "be"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/zh.vtt"
+                                },
+                                "placeholder": "zh"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/sub_hd/uk.vtt"
+                                },
+                                "placeholder": "uk"
+                            }
+                        ],
+                        "targets": [
+                            {
+                                "location": {
+                                    "storage_provider": "s3",
+                                    "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/hls"
+                                },
+                                "placeholder": "hls_output",
+                                "include_in_result": true,
+                                "recursive": true
+                            }
+                        ],
+                        "commands": [
+                            {
+                                "docker_image": {
+                                    "image_urn": "284439818173.dkr.ecr.us-east-1.amazonaws.com/pluto-bento4:v1.6.0_v1.1.0",
+                                    "registry": {
+                                        "kind": "ecr"
+                                    }
+                                },
+                                "command_line": "plutohls -o /{hls_output} -f --segment-duration 5 --master-playlist-name master.m3u8 --random-tier-encryption-keys --encryption-rotate-segments 0 --ext-x-key-output always --output-encryption-key --audio-format ts --hls-version 3 [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_300-]{hls_300} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_600-]{hls_600} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_1000-]{hls_1000} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_1600-]{hls_1600} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_2400-]{hls_2400} [+language=uk\\|+type=audio\\|+playlist=uk-ad\\|+directory=uk-ad\\|+segment=\\|+name-postfix='(Audio-Description)'\\|+autoselect=no\\|+characteristics=public.accessibility.describes-video]{uk_audio_description_0} [+language=be\\|+format=webvtt\\|+autoselect=yes\\|+segment=\\|+directory=be-cc\\|+characteristics=public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound\\|+playlist=be-cc]{be} [+language=zh\\|+format=webvtt\\|+autoselect=yes\\|+segment=\\|+directory=zh-sub\\|+playlist=zh-sub]{zh} [+language=uk\\|+format=webvtt\\|+autoselect=yes\\|+segment=\\|+directory=uk-cc\\|+characteristics=public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound\\|+playlist=uk-cc]{uk}",
+                                "preserve_stdout": true,
+                                "preserve_stderr": true
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "uid": "package_hls",
+                "kind": "script",
+                "task": {
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "retry",
+                    "retry": {
+                        "count": 2,
+                        "delay_sec": 30
+                    },
+                    "tags": [
+                        "hls-package"
+                    ]
+                },
+                "payload": {
+                    "kind": "docker",
+                    "payload": {
+                        "sources": [
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_300.mp4"
+                                },
+                                "placeholder": "hls_300"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_600.mp4"
+                                },
+                                "placeholder": "hls_600"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_1000.mp4"
+                                },
+                                "placeholder": "hls_1000"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_1600.mp4"
+                                },
+                                "placeholder": "hls_1600"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_2400.mp4"
+                                },
+                                "placeholder": "hls_2400"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3:/nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/uk_audio_description_0.mp4"
+                                },
+                                "placeholder": "uk_audio_description_0"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/be.vtt"
+                                },
+                                "placeholder": "be"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/zh.vtt"
+                                },
+                                "placeholder": "zh"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/uk.vtt"
+                                },
+                                "placeholder": "uk"
+                            }
+                        ],
+                        "targets": [
+                            {
+                                "location": {
+                                    "storage_provider": "s3",
+                                    "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/hls"
+                                },
+                                "placeholder": "hls_output",
+                                "include_in_result": true,
+                                "recursive": true
+                            }
+                        ],
+                        "commands": [
+                            {
+                                "docker_image": {
+                                    "image_urn": "284439818173.dkr.ecr.us-east-1.amazonaws.com/pluto-bento4:v1.6.0_v1.1.0",
+                                    "registry": {
+                                        "kind": "ecr"
+                                    }
+                                },
+                                "command_line": "plutohls -o /{hls_output}/fp -f --segment-duration 5 --master-playlist-name fp_master.m3u8 --master-playlist-output=/{hls_output} --encryption-mode SAMPLE-AES --encryption-iv-mode fps --encryption-key 9d8246035553fdcec03d4eb400f26a726bb2d7b3918d5aa11f470394b69fdd93 --fairplay=uri:skd://0000000063579de8a2dc5aefcc6aeb10/clip/5bb450d7d0d939e375e93308 --no-iframe-playlist --audio-format ts --hls-version 5 [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_300_]{hls_300} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_600_]{hls_600} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_1000_]{hls_1000} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_1600_]{hls_1600} [+language=en\\|+default=no\\|+muxed=yes\\|+segment=hls_2400_]{hls_2400} [+language=uk\\|+type=audio\\|+playlist=uk-ad\\|+directory=uk-ad\\|+segment=\\|+name-postfix='(Audio-Description)'\\|+autoselect=no\\|+characteristics=public.accessibility.describes-video]{uk_audio_description_0} [+language=be\\|+format=webvtt\\|+autoselect=yes\\|+segment=\\|+directory=be-cc\\|+characteristics=public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound\\|+playlist=be-cc]{be} [+language=zh\\|+format=webvtt\\|+autoselect=yes\\|+segment=\\|+directory=zh-sub\\|+playlist=zh-sub]{zh} [+language=uk\\|+format=webvtt\\|+autoselect=yes\\|+segment=\\|+directory=uk-cc\\|+characteristics=public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound\\|+playlist=uk-cc]{uk}",
+                                "preserve_stdout": true,
+                                "preserve_stderr": true
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "uid": "package_dash",
+                "kind": "script",
+                "task": {
+                    "name": "Package DASH shaka script",
+                    "flags": {
+                        "split_task": "smart"
+                    },
+                    "retry_method": "retry",
+                    "retry": {
+                        "count": 2,
+                        "delay_sec": 30
+                    },
+                    "tags": [
+                        "dash-package"
+                    ]
+                },
+                "payload": {
+                    "kind": "docker",
+                    "payload": {
+                        "sources": [
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_300.mp4"
+                                },
+                                "placeholder": "hls_300"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_600.mp4"
+                                },
+                                "placeholder": "hls_600"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_1000.mp4"
+                                },
+                                "placeholder": "hls_1000"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_1600.mp4"
+                                },
+                                "placeholder": "hls_1600"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/hls_2400.mp4"
+                                },
+                                "placeholder": "hls_2400"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/uk_audio_description_0.mp4"
+                                },
+                                "placeholder": "uk_audio_description_0"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/be.vtt"
+                                },
+                                "placeholder": "be"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/zh.vtt"
+                                },
+                                "placeholder": "zh"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4/uk.vtt"
+                                },
+                                "placeholder": "uk"
+                            }
+                        ],
+                        "targets": [
+                            {
+                                "location": {
+                                    "storage_provider": "s3",
+                                    "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/dash"
+                                },
+                                "placeholder": "dash_base_dir",
+                                "include_in_result": true,
+                                "recursive": true
+                            }
+                        ],
+                        "commands": [
+                            {
+                                "docker_image": {
+                                    "image_urn": "284439818173.dkr.ecr.us-east-1.amazonaws.com/shaka-packager:v2.6.1_pluto.v8.1",
+                                    "registry": {
+                                        "kind": "ecr"
+                                    }
+                                },
+                                "command_line": "sh -c 'cd {dash_base_dir} && packager in={hls_300},stream=video,init_segment=video/240p-300/init.mp4,segment_template=video/240p-300/\\$Number%05d$\\.m4s,drm_label=k_1 in={hls_600},stream=video,init_segment=video/360p-600/init.mp4,segment_template=video/360p-600/\\$Number%05d$\\.m4s,drm_label=k_1 in={hls_1000},stream=video,init_segment=video/480p-1000/init.mp4,segment_template=video/480p-1000/\\$Number%05d$\\.m4s,drm_label=k_1 in={hls_1600},stream=video,init_segment=video/480p-1600/init.mp4,segment_template=video/480p-1600/\\$Number%05d$\\.m4s,drm_label=k_1 in={hls_2400},stream=video,init_segment=video/720p-2400/init.mp4,segment_template=video/720p-2400/\\$Number%05d$\\.m4s,drm_label=k_0 in={hls_300},stream=audio,init_segment=audio/en/init.mp4,segment_template=audio/en/\\$Number%05d$\\.m4s,drm_label=k_1,language=en,dash_roles=main in={uk_audio_description_0},stream=audio,init_segment=audio/uk-ad/init.mp4,segment_template=audio/uk-ad/\\$Number%05d$\\.m4s,drm_label=k_1,language=uk,dash_roles=description in={be},stream=text,init_segment=text/be-cc/init.mp4,segment_template=text/be-cc/\\$Number%05d$\\.m4s,language=be in={zh},stream=text,init_segment=text/zh-sub/init.mp4,segment_template=text/zh-sub/\\$Number%05d$\\.m4s,language=zh in={uk},stream=text,init_segment=text/uk-cc/init.mp4,segment_template=text/uk-cc/\\$Number%05d$\\.m4s,language=uk --protection_scheme cenc --protection_systems widevine,playready --enable_raw_key_encryption --keys label=k_0:key_id=00000000633ae6217d959114741b9982:key=23a72969d1c803f0fcbbbbc9c0e7841e:iv=038f4e495b1d05f7244c29882f7d9232,label=k_1:key_id=00000000633ae6217d959114741b9983:key=107b044f19721d7352e32225b83b323a:iv=3276e70d99a737114f0f5a4450fec580 --generate_static_live_mpd --min_buffer_time 5.000 --minimum_update_period 15.000 --mpd_output main.mpd --segment_duration 5.000 --io_cache_size 0 --io_block_size 0 --clear_lead 0 --skip_empty_edits'"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "uid": "delete_fmp4_folder",
+                "kind": "delete_asset",
+                "task": {
+                    "name": "Delete fmp4 transcode assets",
+                    "flags": {}
+                },
+                "payload": {
+                    "asset_selector": "config",
+                    "location": {
+                        "storage_provider": "s3",
+                        "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/fmp4"
+                    },
+                    "delete_folder_acknowledgement": "fmp4"
+                }
+            },
+            {
+                "uid": "manifest_merge",
+                "kind": "script",
+                "task": {
+                    "name": "Merge AES and DRM master manifests",
+                    "flags": {}
+                },
+                "payload": {
+                    "kind": "standard_library",
+                    "payload": {
+                        "sources": [
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/hls/master.m3u8"
+                                },
+                                "placeholder": "manifest_aes"
+                            },
+                            {
+                                "asset_url": {
+                                    "storage_provider": "s3",
+                                    "url": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/hls/fp_master.m3u8"
+                                },
+                                "placeholder": "manifest_drm"
+                            }
+                        ],
+                        "targets": [
+                            {
+                                "location": {
+                                    "storage_provider": "s3",
+                                    "path": "s3://nonprd-hybrik-output/TAN_BLUE/clip/pluto/9d3dcfb9db2b1782a99b16b8_FileName/720pDRM/20230126_103448/hls"
+                                },
+                                "placeholder": "manifest_out",
+                                "file_pattern": "master.m3u8",
+                                "include_in_result": true,
+                                "recursive": true
+                            }
+                        ],
+                        "commands": [
+                            {
+                                "library": "ffmpeg_3.2_8bit",
+                                "command_line": "echo -e '\\n' > {manifest_out};cat {manifest_drm} | grep -e '#EXT-X-MEDIA:TYPE=SUBTITLES' >> {manifest_out}; echo -e \"\" >> {manifest_out};sed -i 's/#EXT-X-MEDIA:TYPE=SUBTITLES/#PLUTO-DRM:ID=\"fairplay\"\\n#EXT-X-MEDIA:TYPE=SUBTITLES/g' {manifest_out};cat {manifest_drm} | grep -e '#EXT-X-STREAM-INF' -e 'hls.*m3u8' >> {manifest_out};sed -i 's/#EXT-X-STREAM-INF/#PLUTO-DRM:ID=\"fairplay\"\\n#EXT-X-STREAM-INF/g' {manifest_out};out=$(cat {manifest_aes} {manifest_out});echo \"$out\" > {manifest_out};sed -i 's/#EXT-X-VERSION:3/#EXT-X-VERSION:5/' {manifest_out}"
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "connections": [
+            {
+                "from": [
+                    {
+                        "element": "source"
+                    }
+                ],
+                "to": {
+                    "success": [
+                        {
+                            "element": "analyze_source"
+                        }
+                    ]
+                }
+            },
+            {
+                "from": [
+                    {
+                        "element": "analyze_source"
+                    }
+                ],
+                "to": {
+                    "success": [
+                        {
+                            "element": "transcode_fmp4_sub_hd"
+                        },
+                        {
+                            "element": "transcode_fmp4"
+                        },
+                        {
+                            "element": "transcode_mp4_preview"
+                        },
+                        {
+                            "element": "thumbnails"
+                        }
+                    ]
+                }
+            },
+            {
+                "from": [
+                    {
+                        "element": "transcode_fmp4"
+                    }
+                ],
+                "to": {
+                    "success": [
+                        {
+                            "element": "package_hls"
+                        },
+                        {
+                            "element": "package_dash"
+                        }
+                    ]
+                }
+            },
+            {
+                "from": [
+                    {
+                        "element": "transcode_fmp4_sub_hd"
+                    }
+                ],
+                "to": {
+                    "success": [
+                        {
+                            "element": "package_hls_clearkey"
+                        }
+                    ]
+                }
+            },
+            {
+                "from": [
+                    {
+                        "element": "package_hls"
+                    },
+                    {
+                        "element": "package_hls_clearkey"
+                    },
+                    {
+                        "element": "package_dash"
+                    },
+                    {
+                        "element": "source"
+                    }
+                ],
+                "to": {
+                    "success": [
+                        {
+                            "element": "delete_fmp4_folder"
+                        }
+                    ],
+                    "error": [
+                        {
+                            "element": "delete_fmp4_folder"
+                        }
+                    ]
+                }
+            },
+            {
+                "from": [
+                    {
+                        "element": "delete_fmp4_folder"
+                    },
+                    {
+                        "element": "source"
+                    }
+                ],
+                "to": {
+                    "success": [
+                        {
+                            "element": "manifest_merge"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "expiration": 43200,
+    "priority": 254,
+    "task_tags": [
+        "720pDRM",
+        "Clip",
+        "dev"
+    ],
+    "subscription_key": "dev"
+}
